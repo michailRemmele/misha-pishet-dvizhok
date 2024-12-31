@@ -1,0 +1,18 @@
+.layout {
+    padding: 42px 16px;
+    margin: 0 auto;
+
+    max-width: 700px;
+}
+
+figure > img {
+    margin: 0 auto;
+}
+
+figcaption {
+    font-size: 14px;
+    text-align: center;
+    color: #6d7885;
+
+    margin: 12px 21px 0 21px;
+}

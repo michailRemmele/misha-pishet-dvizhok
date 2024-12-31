@@ -4,11 +4,11 @@
 
 @layer base {
     h1 {
-        @apply text-4xl font-bold tracking-tight sm:text-5xl;
+        @apply text-3xl font-bold tracking-tight sm:text-4xl;
     }
 
     h2 {
-        @apply text-2xl font-bold sm:text-3xl;
+        @apply text-xl font-bold sm:text-2xl;
     }
 
     a {
@@ -32,6 +32,23 @@
     }
 
     .markdown > p,
+    .markdown > ul {
+        font-family: 'PT Serif', serif;
+        font-size: 18px;
+
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .markdown > ul {
+        list-style: disc;
+        padding-left: 16px;
+    }
+
+    .markdown > ul > li + li {
+        margin-top: 12px;
+    }
+
+    .markdown > p,
     .markdown > pre {
         @apply my-6;
     }
@@ -47,4 +64,6 @@
     .btn:disabled {
         @apply text-neutral-400 bg-neutral-700;
     }
+
+    
 }
