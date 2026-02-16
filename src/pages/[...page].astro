@@ -36,7 +36,7 @@ const pageLink = (pageNumber: number) =>
     {
       page.data.map((post) => (
         <article class="post-card">
-          <a class="post-card__cover-link" href={`/posts/${post.id}/`}>
+          <a class="post-card__cover-link" href={`/posts/${post.data.postSlug}/`}>
             <img
               class="post-card__cover"
               src={post.data.cover}
@@ -49,10 +49,10 @@ const pageLink = (pageNumber: number) =>
               {formatDate(post.data.date)}
             </time>
             <h2>
-              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+              <a href={`/posts/${post.data.postSlug}/`}>{post.data.title}</a>
             </h2>
             <p>{post.data.excerpt}</p>
-            <a class="post-card__read-more" href={`/posts/${post.id}/`}>
+            <a class="post-card__read-more" href={`/posts/${post.data.postSlug}/`}>
               Читать статью
             </a>
           </div>

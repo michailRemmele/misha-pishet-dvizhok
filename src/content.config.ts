@@ -7,6 +7,7 @@ const posts = defineCollection({
     base: './src/content/posts'
   }),
   schema: z.object({
+    postSlug: z.string(),
     title: z.string(),
     date: z.coerce.date(),
     excerpt: z.string(),

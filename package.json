@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "import:telegram": "node scripts/import-telegram-posts.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.7",
