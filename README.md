@@ -1,51 +1,49 @@
-# Astro on Netlify Platform Starter
+# Блог на Astro
 
-[Live Demo](https://astro-platform-starter.netlify.app/)
+Текущая версия Astro в проекте: `5.17.2`.
 
-A modern starter based on Astro.js, Tailwind, daisyUI, and [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop) (Edge Functions, Image CDN, Blob Store).
+## Команды
 
-## Astro Commands
+- `npm install` - установить зависимости
+- `npm run dev` - локальная разработка (`http://localhost:4321`)
+- `npm run build` - production-сборка в `dist/`
+- `npm run preview` - локальный preview production-сборки
 
-All commands are run from the root of the project, from a terminal:
+## Структура контента
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Все статьи лежат в `src/content/posts/*.md`.
 
-## Deploying to Netlify
+Минимальный frontmatter для новой статьи:
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/astro-platform-starter)
+```md
+---
+title: "Заголовок"
+date: 2026-02-16
+excerpt: "Короткое описание для карточки"
+cover: "/images/example-cover.jpg"
+coverAlt: "Описание обложки"
+---
 
-## Developing Locally
-
-| Prerequisites             |
-| :------------------------ |
-| [Node.js](https://nodejs.org/) v18.14+. |
-| (optional) [nvm](https://github.com/nvm-sh/nvm) for Node version management. |
-
-1. Clone this repository, then run `npm install` in its root directory.
-
-2. For the starter to have full functionality locally (e.g. edge functions, blob store), please ensure you have an up-to-date version of Netlify CLI. Run:
-
-```
-npm install netlify-cli@latest -g
+Текст статьи...
 ```
 
-3. Link your local repository to the deployed Netlify site. This will ensure you're using the same runtime version for both local development and your deployed site.
+## Пагинация
 
-```
-netlify link
-```
+Главная страница показывает ленту статей с пагинацией.
 
-4. Then, run the Astro.js development server via Netlify CLI:
+- страница 1: `/`
+- страница 2: `/2/`
+- и т.д.
 
-```
-netlify dev
-```
+Полная статья: `/posts/<slug>/`.
 
-If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
+## Деплой на Beget
+
+Проект собран как статический сайт (`output: 'static'`).
+
+1. Выполнить `npm run build`.
+2. Открыть папку `dist/`.
+3. Загрузить содержимое `dist/` в каталог сайта на Beget (обычно `public_html`).
+4. Если у домена уже есть старые файлы, заменить их файлами из `dist/`.
+
+После загрузки сайт сразу готов к работе.

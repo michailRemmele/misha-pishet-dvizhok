@@ -1,32 +1,45 @@
 ---
-import '../../src/styles/globals.css';
+import '../styles/globals.css';
 import '@fontsource/inter/400.css';
-import '@fontsource/inter/800.css';
-import './style.css';
+import '@fontsource/inter/700.css';
 import interFont400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
-import interFont800 from '@fontsource/inter/files/inter-latin-800-normal.woff2?url';
+import interFont700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?url';
 
 interface Props {
-    title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>{title}</title>
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        <link rel="preload" as="font" type="font/woff2" href={interFont400} crossorigin />
-        <link rel="preload" as="font" type="font/woff2" href={interFont800} crossorigin />
-    </head>
-    <body>
-        <div class="layout">
-            <main><slot /></main>
-        </div>
-    </body>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={interFont400}
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={interFont700}
+      crossorigin
+    />
+  </head>
+  <body>
+    <div class="site-shell">
+      <main class="site-main">
+        <slot />
+      </main>
+    </div>
+  </body>
 </html>

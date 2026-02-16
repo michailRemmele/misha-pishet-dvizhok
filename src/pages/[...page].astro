@@ -1,0 +1,102 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getCollection('posts');
+  posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  return paginate(posts, { pageSize: 5 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const pageTitle =
+  page.currentPage === 1 ? 'Статьи' : `Статьи - страница ${page.currentPage}`;
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(date);
+
+const pageLink = (pageNumber: number) =>
+  pageNumber === 1 ? '/' : `/${pageNumber}/`;
+---
+
+<Layout title={pageTitle}>
+  <section class="feed-header">
+    <h1>Статьи</h1>
+    <p>Блог о разработке игр и пет-проектах.</p>
+  </section>
+
+  <section class="feed-list" aria-label="Список статей">
+    {
+      page.data.map((post) => (
+        <article class="post-card">
+          <a class="post-card__cover-link" href={`/posts/${post.id}/`}>
+            <img
+              class="post-card__cover"
+              src={post.data.cover}
+              alt={post.data.coverAlt ?? post.data.title}
+              loading="lazy"
+            />
+          </a>
+          <div class="post-card__body">
+            <time datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+            <h2>
+              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.excerpt}</p>
+            <a class="post-card__read-more" href={`/posts/${post.id}/`}>
+              Читать статью
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  {
+    page.lastPage > 1 && (
+      <nav class="pagination" aria-label="Пагинация статей">
+        <a
+          class:list={['pagination__item', !page.url.prev && 'is-disabled']}
+          href={page.url.prev ?? undefined}
+          aria-disabled={!page.url.prev}
+        >
+          Назад
+        </a>
+
+        {Array.from({ length: page.lastPage }, (_, index) => index + 1).map(
+          (pageNumber) => (
+            <a
+              class:list={[
+                'pagination__item',
+                page.currentPage === pageNumber && 'is-active'
+              ]}
+              href={pageLink(pageNumber)}
+              aria-current={
+                page.currentPage === pageNumber ? 'page' : undefined
+              }
+            >
+              {pageNumber}
+            </a>
+          )
+        )}
+
+        <a
+          class:list={['pagination__item', !page.url.next && 'is-disabled']}
+          href={page.url.next ?? undefined}
+          aria-disabled={!page.url.next}
+        >
+          Вперед
+        </a>
+      </nav>
+    )
+  }
+</Layout>
