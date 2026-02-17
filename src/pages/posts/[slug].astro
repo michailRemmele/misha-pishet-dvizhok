@@ -32,8 +32,6 @@ const formatDate = (date: Date) =>
         >{formatDate(post.data.date)}</time
       >
       <h1>{post.data.title}</h1>
-      <p>{post.data.excerpt}</p>
-      <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} />
     </header>
 
     <section class="markdown">

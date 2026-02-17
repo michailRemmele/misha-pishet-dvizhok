@@ -87,10 +87,12 @@ for (const message of messages) {
     }
   }
 
-  const cover = videoThumbPaths[0] || imagePaths[0] || '/favicon-96x96.png';
-  const coverAlt = videoThumbPaths[0]
-    ? `Превью видео: ${title}`
-    : `Обложка статьи: ${title}`;
+  const cover = videoThumbPaths[0] || imagePaths[0];
+  const coverAlt = cover
+    ? videoThumbPaths[0]
+      ? `Превью видео: ${title}`
+      : `Обложка статьи: ${title}`
+    : null;
 
   const articleBody = buildBody(textMarkdown, imagePaths, videoPaths, title);
   const frontmatter = [
@@ -99,8 +101,8 @@ for (const message of messages) {
     `title: '${escapeYaml(title)}'`,
     `date: ${dateIso}`,
     `excerpt: '${escapeYaml(excerpt)}'`,
-    `cover: '${escapeYaml(cover)}'`,
-    `coverAlt: '${escapeYaml(coverAlt)}'`,
+    ...(cover ? [`cover: '${escapeYaml(cover)}'`] : []),
+    ...(coverAlt ? [`coverAlt: '${escapeYaml(coverAlt)}'`] : []),
     '---',
     ''
   ].join('\n');

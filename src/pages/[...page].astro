@@ -7,7 +7,7 @@ export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection('posts');
   posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-  return paginate(posts, { pageSize: 5 });
+  return paginate(posts, { pageSize: 10 });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
@@ -36,14 +36,19 @@ const pageLink = (pageNumber: number) =>
     {
       page.data.map((post) => (
         <article class="post-card">
-          <a class="post-card__cover-link" href={`/posts/${post.data.postSlug}/`}>
-            <img
-              class="post-card__cover"
-              src={post.data.cover}
-              alt={post.data.coverAlt ?? post.data.title}
-              loading="lazy"
-            />
-          </a>
+          {post.data.cover && (
+            <a
+              class="post-card__cover-link"
+              href={`/posts/${post.data.postSlug}/`}
+            >
+              <img
+                class="post-card__cover"
+                src={post.data.cover}
+                alt={post.data.coverAlt ?? post.data.title}
+                loading="lazy"
+              />
+            </a>
+          )}
           <div class="post-card__body">
             <time datetime={post.data.date.toISOString()}>
               {formatDate(post.data.date)}
