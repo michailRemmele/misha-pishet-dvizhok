@@ -202,7 +202,7 @@ video {
 
 .markdown h2 {
   margin: 40px 0 16px;
-  font-size: 1.85rem;
+  font-size: 1.5rem;
   line-height: 1.2;
 }
 
@@ -229,9 +229,11 @@ video {
 .markdown figure img,
 .markdown figure video {
   width: 100%;
+  max-height: 500px;
   border-radius: 14px;
   border: 1px solid var(--line);
   background: #000;
+  object-fit: contain;
 }
 
 .markdown figcaption {
