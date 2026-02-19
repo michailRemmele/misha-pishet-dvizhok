@@ -377,8 +377,22 @@ video {
 }
 
 @media (max-width: 640px) {
+  html,
+  body {
+    background: var(--surface);
+  }
+
   .site-shell {
     padding-top: 18px;
+  }
+
+  .feed-list {
+    margin-inline: -16px;
+  }
+
+  .post-card {
+    border: 0;
+    border-radius: 0;
   }
 
   .post-card__body {
