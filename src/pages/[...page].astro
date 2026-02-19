@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { resolvePostSlug } from '../lib/resolve-post-slugs';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection('posts');
@@ -57,38 +58,35 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
 <Layout title={pageTitle}>
   <section class="feed-list" aria-label="Список статей">
     {
-      page.data.map((post) => (
-        <article class="post-card">
-          {post.data.cover && (
-            <a
-              class="post-card__cover-link"
-              href={`/posts/${post.data.postSlug}/`}
-            >
-              <img
-                class="post-card__cover"
-                src={post.data.cover}
-                alt={post.data.coverAlt ?? post.data.title}
-                loading="lazy"
-              />
-            </a>
-          )}
-          <div class="post-card__body">
-            <time datetime={post.data.date.toISOString()}>
-              {formatDate(post.data.date)}
-            </time>
-            <h2>
-              <a href={`/posts/${post.data.postSlug}/`}>{post.data.title}</a>
-            </h2>
-            <p>{post.data.excerpt}</p>
-            <a
-              class="post-card__read-more"
-              href={`/posts/${post.data.postSlug}/`}
-            >
-              Читать статью
-            </a>
-          </div>
-        </article>
-      ))
+      page.data.map((post) => {
+        const resolvedSlug = resolvePostSlug(post);
+        return (
+          <article class="post-card">
+            {post.data.cover && (
+              <a class="post-card__cover-link" href={`/posts/${resolvedSlug}/`}>
+                <img
+                  class="post-card__cover"
+                  src={post.data.cover}
+                  alt={post.data.coverAlt ?? post.data.title}
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <div class="post-card__body">
+              <time datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
+              </time>
+              <h2>
+                <a href={`/posts/${resolvedSlug}/`}>{post.data.title}</a>
+              </h2>
+              <p>{post.data.excerpt}</p>
+              <a class="post-card__read-more" href={`/posts/${resolvedSlug}/`}>
+                Читать статью
+              </a>
+            </div>
+          </article>
+        );
+      })
     }
   </section>
 
