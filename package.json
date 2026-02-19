@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "import:telegram": "node scripts/import-telegram-posts.mjs"
+    "import:telegram": "node scripts/import-telegram-posts.mjs",
+    "images:to-avif": "node scripts/convert-images-to-avif.mjs",
+    "videos:optimize": "node scripts/optimize-videos-mp4.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.7",
