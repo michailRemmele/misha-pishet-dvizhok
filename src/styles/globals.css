@@ -11,10 +11,10 @@
 
 [data-theme='dark'] {
   --bg: #1a2130;
-  --surface: #151b27;
+  --surface: #222c3f;
   --text: #e8edf8;
   --muted: #9ba7c0;
-  --line: #2a3347;
+  --line: #3a4861;
   --accent: #69a0ff;
   --accent-hover: #92b7ff;
   --title-chip-bg: #263a63;
@@ -23,10 +23,10 @@
 @media (prefers-color-scheme: dark) {
   [data-theme='system'] {
     --bg: #1a2130;
-    --surface: #151b27;
+    --surface: #222c3f;
     --text: #e8edf8;
     --muted: #9ba7c0;
-    --line: #2a3347;
+    --line: #3a4861;
     --accent: #69a0ff;
     --accent-hover: #92b7ff;
     --title-chip-bg: #263a63;
