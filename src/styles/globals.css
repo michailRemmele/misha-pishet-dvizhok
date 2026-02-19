@@ -129,7 +129,11 @@ video {
 .pagination {
   margin-top: 22px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.pagination__list {
+  display: flex;
   gap: 8px;
 }
 
@@ -155,6 +159,13 @@ video {
 .pagination__item.is-disabled {
   pointer-events: none;
   opacity: 0.45;
+}
+
+.pagination__ellipsis {
+  pointer-events: none;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
 }
 
 .post-page__back-link-wrap {

@@ -24,6 +24,34 @@ const formatDate = (date: Date) =>
 
 const pageLink = (pageNumber: number) =>
   pageNumber === 1 ? '/' : `/${pageNumber}/`;
+
+const getPaginationItems = (currentPage: number, lastPage: number) => {
+  const pages = new Set<number>([1, lastPage]);
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(lastPage, currentPage + 2);
+
+  for (let pageNumber = start; pageNumber <= end; pageNumber += 1) {
+    pages.add(pageNumber);
+  }
+
+  const sortedPages = [...pages].sort((a, b) => a - b);
+  const items: Array<number | 'ellipsis'> = [];
+
+  for (let index = 0; index < sortedPages.length; index += 1) {
+    const pageNumber = sortedPages[index];
+    const previousPage = sortedPages[index - 1];
+
+    if (previousPage && pageNumber - previousPage > 1) {
+      items.push('ellipsis');
+    }
+
+    items.push(pageNumber);
+  }
+
+  return items;
+};
+
+const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
 ---
 
 <Layout title={pageTitle}>
@@ -57,7 +85,10 @@ const pageLink = (pageNumber: number) =>
               <a href={`/posts/${post.data.postSlug}/`}>{post.data.title}</a>
             </h2>
             <p>{post.data.excerpt}</p>
-            <a class="post-card__read-more" href={`/posts/${post.data.postSlug}/`}>
+            <a
+              class="post-card__read-more"
+              href={`/posts/${post.data.postSlug}/`}
+            >
               Читать статью
             </a>
           </div>
@@ -74,32 +105,36 @@ const pageLink = (pageNumber: number) =>
           href={page.url.prev ?? undefined}
           aria-disabled={!page.url.prev}
         >
-          Назад
+          &lt;
         </a>
 
-        {Array.from({ length: page.lastPage }, (_, index) => index + 1).map(
-          (pageNumber) => (
-            <a
-              class:list={[
-                'pagination__item',
-                page.currentPage === pageNumber && 'is-active'
-              ]}
-              href={pageLink(pageNumber)}
-              aria-current={
-                page.currentPage === pageNumber ? 'page' : undefined
-              }
-            >
-              {pageNumber}
-            </a>
-          )
-        )}
+        <div class="pagination__list">
+          {paginationItems.map((item) =>
+            item === 'ellipsis' ? (
+              <span class="pagination__ellipsis" aria-hidden="true">
+                ···
+              </span>
+            ) : (
+              <a
+                class:list={[
+                  'pagination__item',
+                  page.currentPage === item && 'is-active'
+                ]}
+                href={pageLink(item)}
+                aria-current={page.currentPage === item ? 'page' : undefined}
+              >
+                {item}
+              </a>
+            )
+          )}
+        </div>
 
         <a
           class:list={['pagination__item', !page.url.next && 'is-disabled']}
           href={page.url.next ?? undefined}
           aria-disabled={!page.url.next}
         >
-          Вперед
+          &gt;
         </a>
       </nav>
     )
