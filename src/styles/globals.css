@@ -6,6 +6,7 @@
   --line: #dbe0ea;
   --accent: #1a66ff;
   --accent-hover: #0044c4;
+  --title-chip-bg: #dce8ff;
 }
 
 [data-theme='dark'] {
@@ -16,6 +17,7 @@
   --line: #2a3347;
   --accent: #69a0ff;
   --accent-hover: #92b7ff;
+  --title-chip-bg: #263a63;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -86,7 +88,7 @@ video {
   font-weight: 700;
   text-decoration: none;
   letter-spacing: 0.1rem;
-  background-color: rgba(26, 102, 255, 0.12);
+  background-color: var(--title-chip-bg);
 }
 
 .theme-switcher {
@@ -240,6 +242,7 @@ video {
   text-decoration: none;
   color: var(--accent);
   font-weight: 700;
+  font-size: 1.125rem;
 }
 
 .post-page__back-link:hover {
@@ -303,12 +306,9 @@ video {
 
 .markdown figure img,
 .markdown figure video {
-  width: 100%;
   max-height: 500px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: #000;
   object-fit: contain;
+  margin: 0 auto;
 }
 
 .markdown figcaption {
