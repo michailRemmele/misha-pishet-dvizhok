@@ -53,3 +53,9 @@ coverAlt: "Описание обложки"
 4. Если у домена уже есть старые файлы, заменить их файлами из `dist/`.
 
 После загрузки сайт сразу готов к работе.
+
+
+aws s3 sync "public/images" "s3://4d7b85999aed-legendary-azamat/blog/images/" \
+  --exclude "*" --include "*.avif" \
+  --no-progress \
+  --endpoint-url https://s3.ru1.storage.beget.cloud
