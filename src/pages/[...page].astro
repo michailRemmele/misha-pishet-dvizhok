@@ -55,11 +55,6 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
 ---
 
 <Layout title={pageTitle}>
-  <section class="feed-header">
-    <h1>Статьи</h1>
-    <p>Блог о разработке игр и пет-проектах.</p>
-  </section>
-
   <section class="feed-list" aria-label="Список статей">
     {
       page.data.map((post) => (
