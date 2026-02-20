@@ -3,18 +3,17 @@ import type { CollectionEntry } from 'astro:content';
 type PostEntry = CollectionEntry<'posts'>;
 
 export function resolvePostSlug(post: PostEntry): string {
-  const baseSlug = post.data.postSlug.trim();
-  const salt = shortHash(post.id);
-  return `${baseSlug}-${salt}`;
+  return post.data.postSlug.trim();
 }
 
-function shortHash(value: string) {
-  let hash = 2166136261;
+export function resolvePostDateSegment(post: PostEntry): string {
+  const year = post.data.date.getUTCFullYear();
+  const month = String(post.data.date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(post.data.date.getUTCDate()).padStart(2, '0');
 
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
+  return `${year}-${month}-${day}`;
+}
 
-  return (hash >>> 0).toString(36).slice(0, 6);
+export function resolvePostPath(post: PostEntry): string {
+  return `/posts/${resolvePostDateSegment(post)}/${resolvePostSlug(post)}/`;
 }

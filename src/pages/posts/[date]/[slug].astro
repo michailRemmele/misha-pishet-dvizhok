@@ -1,13 +1,19 @@
 ---
 import { getCollection, render } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import { resolvePostSlug } from '../../lib/resolve-post-slugs';
+import Layout from '../../../layouts/Layout.astro';
+import {
+  resolvePostDateSegment,
+  resolvePostSlug
+} from '../../../lib/resolve-post-slugs';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
 
   return posts.map((post) => ({
-    params: { slug: resolvePostSlug(post) },
+    params: {
+      date: resolvePostDateSegment(post),
+      slug: resolvePostSlug(post)
+    },
     props: { post }
   }));
 }
