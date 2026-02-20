@@ -43,19 +43,51 @@ coverAlt: "Описание обложки"
 
 Полная статья: `/posts/<date>/<slug>/`.
 
-## Деплой на Beget
+## Деплой на VPS через Docker + Caddy
 
-Проект собран как статический сайт (`output: 'static'`).
+Проект статический (`output: 'static'`), поэтому деплой устроен так:
 
-1. Выполнить `npm run build`.
-2. Открыть папку `dist/`.
-3. Загрузить содержимое `dist/` в каталог сайта на Beget (обычно `public_html`).
-4. Если у домена уже есть старые файлы, заменить их файлами из `dist/`.
+1. GitHub Actions на каждом push в `main` собирает `dist/`.
+2. CI копирует `dist`, `docker-compose.yml`, `Caddyfile` на VPS.
+3. На VPS поднимается/обновляется контейнер Caddy, который раздает сайт и TLS.
 
-После загрузки сайт сразу готов к работе.
+Файлы деплоя в репозитории:
 
+- `docker-compose.yml`
+- `Caddyfile`
+- `.github/workflows/deploy-vps.yml`
+- `ops/vps-bootstrap.sh`
 
-aws s3 sync "public/images" "s3://4d7b85999aed-legendary-azamat/blog/images/" \
-  --exclude "*" --include "*.avif" \
-  --no-progress \
-  --endpoint-url https://s3.ru1.storage.beget.cloud
+### 1) Первый запуск VPS (Ubuntu)
+
+Один раз на сервере:
+
+```bash
+sudo bash ops/vps-bootstrap.sh
+```
+
+Скрипт:
+
+- устанавливает Docker Engine + Compose plugin;
+- открывает порты `22`, `80`, `443` через `ufw`;
+- создает директорию `/opt/misha-blog`.
+
+### 2) GitHub Secrets
+
+В приватном репозитории добавь Secrets (`Settings` -> `Secrets and variables` -> `Actions`):
+
+- `VPS_HOST` - IP или домен VPS
+- `VPS_PORT` - SSH порт (обычно `22`)
+- `VPS_USER` - SSH пользователь
+- `VPS_SSH_KEY` - приватный ключ для SSH (лучше отдельный deploy key)
+- `VPS_PATH` - путь на сервере (например `/opt/misha-blog`)
+- `DOMAIN` - основной домен сайта (например `example.com`, без `https://`)
+
+### 3) Домен
+
+Сделай DNS записи на IP VPS:
+
+- `A` для `@`
+- `A` для `www`
+
+После следующего push в `main` workflow `Deploy to VPS` выполнит деплой автоматически.
