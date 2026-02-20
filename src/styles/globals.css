@@ -6,7 +6,7 @@
   --line: #dbe0ea;
   --accent: #1a66ff;
   --accent-hover: #0044c4;
-  --title-chip-bg: #dce8ff;
+  --title-chip-bg: #9fc0ff;
 }
 
 [data-theme='dark'] {
@@ -76,7 +76,7 @@ video {
 }
 
 .site-header {
-  margin: 0 auto 28px;
+  margin: 0 auto 36px;
   max-width: 760px;
   display: flex;
   align-items: center;
@@ -89,7 +89,15 @@ video {
   font-weight: 700;
   text-decoration: none;
   letter-spacing: 0.1rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+}
+
+.site-title__chip {
+  font-weight: normal;
   background-color: var(--title-chip-bg);
+  padding: 0 0.3rem;
 }
 
 .theme-switcher {
@@ -307,7 +315,7 @@ video {
 
 .markdown figure img,
 .markdown figure video {
-  max-height: 500px;
+  max-height: 70vh;
   object-fit: contain;
   margin: 0 auto;
 }
