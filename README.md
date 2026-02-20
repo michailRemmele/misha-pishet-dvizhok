@@ -70,7 +70,7 @@ sudo bash ops/vps-bootstrap.sh
 
 - устанавливает Docker Engine + Compose plugin;
 - открывает порты `22`, `80`, `443` через `ufw`;
-- создает директорию `/opt/misha-blog`.
+- создает директорию `/opt/www/misha-blog`.
 
 ### 2) GitHub Secrets
 
@@ -80,7 +80,7 @@ sudo bash ops/vps-bootstrap.sh
 - `VPS_PORT` - SSH порт (обычно `22`)
 - `VPS_USER` - SSH пользователь
 - `VPS_SSH_KEY` - приватный ключ для SSH (лучше отдельный deploy key)
-- `VPS_PATH` - путь на сервере (например `/opt/misha-blog`)
+- `VPS_PATH` - путь на сервере (например `/opt/www/misha-blog`)
 - `DOMAIN` - основной домен сайта (например `example.com`, без `https://`)
 
 ### 3) Домен

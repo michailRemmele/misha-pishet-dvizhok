@@ -35,9 +35,9 @@ ufw allow 80/tcp
 ufw allow 443/tcp
 ufw --force enable
 
-install -d -m 755 -o "$DEPLOY_USER" -g "$DEPLOY_USER" /opt/misha-blog
+install -d -m 755 -o "$DEPLOY_USER" -g "$DEPLOY_USER" /opt/www/misha-blog
 
 echo
 echo "Bootstrap complete."
 echo "1) Re-login as $DEPLOY_USER (to apply docker group)."
-echo "2) GitHub Action should deploy to /opt/misha-blog."
+echo "2) GitHub Action should deploy to /opt/www/misha-blog."
