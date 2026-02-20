@@ -402,4 +402,18 @@ video {
   .markdown h2 {
     font-size: 1.5rem;
   }
+
+  .pagination__item.is-mobile-hidden {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .pagination {
+    justify-content: center;
+  }
+
+  .pagination__item.is-arrow {
+    display: none;
+  }
 }

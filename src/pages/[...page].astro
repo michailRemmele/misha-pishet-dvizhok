@@ -26,6 +26,18 @@ const formatDate = (date: Date) =>
 const pageLink = (pageNumber: number) =>
   pageNumber === 1 ? '/' : `/${pageNumber}/`;
 
+const isMobileHiddenItem = (
+  currentPage: number,
+  lastPage: number,
+  item: number
+): boolean => {
+  return (
+    (currentPage - 2 === item || currentPage + 2 === item) &&
+    item !== 0 &&
+    item !== lastPage
+  );
+};
+
 const getPaginationItems = (currentPage: number, lastPage: number) => {
   const pages = new Set<number>([1, lastPage]);
   const start = Math.max(1, currentPage - 2);
@@ -94,7 +106,11 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
     page.lastPage > 1 && (
       <nav class="pagination" aria-label="Пагинация статей">
         <a
-          class:list={['pagination__item', !page.url.prev && 'is-disabled']}
+          class:list={[
+            'pagination__item',
+            'is-arrow',
+            !page.url.prev && 'is-disabled'
+          ]}
           href={page.url.prev ?? undefined}
           aria-disabled={!page.url.prev}
         >
@@ -111,7 +127,9 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
               <a
                 class:list={[
                   'pagination__item',
-                  page.currentPage === item && 'is-active'
+                  page.currentPage === item && 'is-active',
+                  isMobileHiddenItem(page.currentPage, page.lastPage, item) &&
+                    'is-mobile-hidden'
                 ]}
                 href={pageLink(item)}
                 aria-current={page.currentPage === item ? 'page' : undefined}
@@ -123,7 +141,11 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
         </div>
 
         <a
-          class:list={['pagination__item', !page.url.next && 'is-disabled']}
+          class:list={[
+            'pagination__item',
+            'is-arrow',
+            !page.url.next && 'is-disabled'
+          ]}
           href={page.url.next ?? undefined}
           aria-disabled={!page.url.next}
         >
