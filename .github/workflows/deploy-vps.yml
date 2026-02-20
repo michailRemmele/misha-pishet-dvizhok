@@ -40,6 +40,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           source: "dist,docker-compose.yml,Caddyfile"
           target: ${{ secrets.VPS_PATH }}
+          tar_tmp_path: /tmp
           rm: true
 
       - name: Restart stack on VPS
