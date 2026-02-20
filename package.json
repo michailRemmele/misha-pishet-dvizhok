@@ -12,6 +12,8 @@
     "videos:optimize": "node scripts/optimize-videos-mp4.mjs"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
     "@fontsource/inter": "^5.2.7",
     "astro": "^5.17.2"
   }
