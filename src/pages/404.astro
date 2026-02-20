@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 - Страница не найдена"
+  description="Запрошенная страница не найдена."
+  noIndex={true}
+>
+  <section class="not-found">
+    <p class="not-found__code">404</p>
+    <h1>Страница не найдена</h1>
+    <p>
+      Похоже, ссылка устарела или в адресе опечатка. Вернуться к списку статей
+      можно по кнопке ниже.
+    </p>
+    <a class="not-found__link" href="/">На главную</a>
+  </section>
+</Layout>

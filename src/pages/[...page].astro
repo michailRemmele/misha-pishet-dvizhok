@@ -14,7 +14,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const pageTitle =
-  page.currentPage === 1 ? 'Статьи' : `Статьи - страница ${page.currentPage}`;
+  page.currentPage === 1
+    ? 'Статьи | блог Михаила Реммеле'
+    : `Статьи - страница ${page.currentPage} | блог Михаила Реммеле`;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('ru-RU', {

@@ -29,7 +29,11 @@ const formatDate = (date: Date) =>
   }).format(date);
 ---
 
-<Layout title={post.data.title}>
+<Layout
+  title={post.data.title}
+  description={post.data.excerpt}
+  socialType="article"
+>
   <article class="post-page">
     <p class="post-page__back-link-wrap">
       <a class="post-page__back-link" href="/">Все заметки</a>

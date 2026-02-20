@@ -7,10 +7,31 @@ import interFont700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?u
 
 interface Props {
   title: string;
+  description?: string;
+  socialType?: 'website' | 'article';
+  noIndex?: boolean;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = 'Рассказываю о ходе разработки игрового движка, который я пишу в свободное от работы время.',
+  socialType = 'website',
+  noIndex = false
+} = Astro.props;
 const currentYear = new Date().getFullYear();
+const siteUrl = Astro.site;
+const pageUrl = siteUrl ? new URL(Astro.url.pathname, siteUrl) : undefined;
+
+const resolveImageUrl = (image: string) => {
+  try {
+    return new URL(image).toString();
+  } catch {
+    return siteUrl ? new URL(image, siteUrl).toString() : image;
+  }
+};
+
+const imageUrl = resolveImageUrl('/social-preview.png');
+const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
 ---
 
 <!doctype html>
@@ -19,6 +40,20 @@ const currentYear = new Date().getFullYear();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={socialType} />
+    <meta property="og:site_name" content="Миша пишет движок" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {pageUrl && <meta property="og:url" content={pageUrl.toString()} />}
+    {pageUrl && <link rel="canonical" href={pageUrl.toString()} />}
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link
