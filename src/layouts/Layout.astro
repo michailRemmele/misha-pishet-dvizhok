@@ -38,6 +38,22 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
 <!doctype html>
 <html lang="ru">
   <head>
+    <script is:inline>
+      (() => {
+        try {
+          const storedTheme = localStorage.getItem('theme');
+          const initialTheme =
+            storedTheme === 'light' ||
+            storedTheme === 'dark' ||
+            storedTheme === 'system'
+              ? storedTheme
+              : 'system';
+          document.documentElement.setAttribute('data-theme', initialTheme);
+        } catch {
+          document.documentElement.setAttribute('data-theme', 'system');
+        }
+      })();
+    </script>
     <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -234,8 +250,6 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
       };
 
       const initThemeSwitcher = () => {
-        const initialTheme = getStoredTheme();
-        applyTheme(initialTheme);
         updateActiveState(getCurrentTheme());
         bindThemeButtons();
       };
