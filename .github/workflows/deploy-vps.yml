@@ -42,7 +42,12 @@ jobs:
             whoami
             id
             ls -ld /opt /opt/www || true
+            command -v tar
+            echo $HOME
+            ls -ld /tmp
             touch /opt/www/.perm_test && rm -f /opt/www/.perm_test
+            rm -rf /opt/www/misha-blog
+            mkdir -p /opt/www/misha-blog
 
       - name: Upload release to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -53,9 +58,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           source: 'dist,docker-compose.yml,Caddyfile'
           target: ${{ secrets.VPS_PATH }}
-          tar_tmp_path: /tmp
           rm: true
-          debug: true
 
       - name: Restart stack on VPS
         uses: appleboy/ssh-action@v1.2.0
