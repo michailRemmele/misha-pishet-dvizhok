@@ -75,8 +75,8 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
     <link
       rel="alternate"
       type="application/rss+xml"
-      title="RSS: Миша пишет движок"
-      href="/rss.xml"
+      title="Миша пишет движок"
+      href={new URL('rss.xml', siteUrl)}
     />
     <title>{title}</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
