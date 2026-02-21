@@ -21,11 +21,6 @@
   animation-timing-function: ease;
 }
 
-::view-transition-old(.post-card__cover),
-::view-transition-new(.post-card__cover) {
-  clip-path: inset(0 round 18px 18px 0 0);
-}
-
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
   ::view-transition-new(root),
@@ -189,7 +184,6 @@ video {
 }
 
 .post-card__cover {
-  view-transition-class: post-card__cover;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
