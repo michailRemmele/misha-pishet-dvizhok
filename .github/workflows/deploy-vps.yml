@@ -31,6 +31,19 @@ jobs:
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
 
+      - name: Debug server permissions
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: deploy
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            whoami
+            id
+            ls -ld /opt /opt/www || true
+            touch /opt/www/.perm_test && rm -f /opt/www/.perm_test
+
       - name: Upload release to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
