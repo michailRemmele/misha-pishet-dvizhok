@@ -1,10 +1,10 @@
 ---
 import '../styles/globals.css';
 import { ClientRouter } from 'astro:transitions';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/700.css';
-import interFont400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
-import interFont700 from '@fontsource/inter/files/inter-latin-700-normal.woff2?url';
+import '@fontsource/golos-text/cyrillic-400.css';
+import '@fontsource/golos-text/cyrillic-700.css';
+import '@fontsource/golos-text/latin-400.css';
+import '@fontsource/golos-text/latin-700.css';
 
 interface Props {
   title: string;
@@ -64,20 +64,6 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
     />
     <title>{title}</title>
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href={interFont400}
-      crossorigin
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href={interFont700}
-      crossorigin
-    />
   </head>
   <body>
     <div class="site-shell">
