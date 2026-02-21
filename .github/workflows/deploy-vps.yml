@@ -31,24 +31,6 @@ jobs:
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
 
-      - name: Debug server permissions
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: ${{ secrets.VPS_PORT }}
-          script: |
-            whoami
-            id
-            ls -ld /opt /opt/www || true
-            command -v tar
-            echo $HOME
-            ls -ld /tmp
-            touch /opt/www/.perm_test && rm -f /opt/www/.perm_test
-            rm -rf /opt/www/misha-blog
-            mkdir -p /opt/www/misha-blog
-
       - name: Upload release to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
