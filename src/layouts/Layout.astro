@@ -250,6 +250,8 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
       };
 
       const initThemeSwitcher = () => {
+        const initialTheme = getStoredTheme();
+        applyTheme(initialTheme);
         updateActiveState(getCurrentTheme());
         bindThemeButtons();
       };
