@@ -38,10 +38,11 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          source: "dist,docker-compose.yml,Caddyfile"
+          source: 'dist,docker-compose.yml,Caddyfile'
           target: ${{ secrets.VPS_PATH }}
           tar_tmp_path: /tmp
           rm: true
+          debug: true
 
       - name: Restart stack on VPS
         uses: appleboy/ssh-action@v1.2.0
