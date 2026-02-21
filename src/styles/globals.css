@@ -1,6 +1,8 @@
 :root {
   --bg: #f7f8fb;
   --surface: #ffffff;
+  --surface-subtle: #edf1f9;
+  --code-bg: #f0f3f8;
   --text: #131722;
   --muted: #5c6475;
   --line: #dbe0ea;
@@ -33,6 +35,8 @@
 [data-theme='dark'] {
   --bg: #1a2130;
   --surface: #222c3f;
+  --surface-subtle: #2a354b;
+  --code-bg: #1f2a3c;
   --text: #e8edf8;
   --muted: #9ba7c0;
   --line: #3a4861;
@@ -45,6 +49,8 @@
   [data-theme='system'] {
     --bg: #1a2130;
     --surface: #222c3f;
+    --surface-subtle: #2a354b;
+    --code-bg: #1f2a3c;
     --text: #e8edf8;
     --muted: #9ba7c0;
     --line: #3a4861;
@@ -187,7 +193,7 @@ video {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  background: #edf1f9;
+  background: var(--surface-subtle);
 }
 
 .post-card__body {
@@ -406,7 +412,7 @@ video {
   border-radius: 12px;
   border: 1px solid var(--line);
   padding: 16px;
-  background: #f0f3f8;
+  background: var(--code-bg);
 }
 
 .not-found {
