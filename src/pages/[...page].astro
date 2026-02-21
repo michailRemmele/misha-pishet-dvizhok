@@ -15,8 +15,8 @@ const { page } = Astro.props;
 
 const pageTitle =
   page.currentPage === 1
-    ? 'Статьи | блог Михаила Реммеле'
-    : `Статьи - страница ${page.currentPage} | блог Михаила Реммеле`;
+    ? 'Статьи | Блог Михаила Реммеле'
+    : `Статьи - страница ${page.currentPage} | Блог Михаила Реммеле`;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('ru-RU', {

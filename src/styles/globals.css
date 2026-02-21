@@ -71,6 +71,10 @@ video {
   height: auto;
 }
 
+video {
+  background: black;
+}
+
 .site-shell {
   padding: 20px 16px 42px;
 }
@@ -450,6 +454,10 @@ video {
 
   .pagination__item.is-mobile-hidden {
     display: none;
+  }
+
+  .site-footer {
+    flex-direction: column-reverse;
   }
 }
 
