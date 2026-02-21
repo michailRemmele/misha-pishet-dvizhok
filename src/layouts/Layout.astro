@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css';
+import { ClientRouter } from 'astro:transitions';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/700.css';
 import interFont400 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
@@ -37,6 +38,7 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
 <!doctype html>
 <html lang="ru">
   <head>
+    <ClientRouter />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
@@ -232,7 +234,7 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
         );
 
         buttons.forEach((button) => {
-          button.addEventListener('click', () => {
+          button.onclick = () => {
             const selectedTheme = button.dataset.themeOption;
             if (!isThemeOption(selectedTheme)) {
               return;
@@ -241,7 +243,7 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
             applyTheme(selectedTheme);
             localStorage.setItem('theme', selectedTheme);
             updateActiveState(selectedTheme);
-          });
+          };
         });
       };
 
@@ -253,6 +255,7 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
       };
 
       initThemeSwitcher();
+      document.addEventListener('astro:page-load', initThemeSwitcher);
     </script>
   </body>
 </html>

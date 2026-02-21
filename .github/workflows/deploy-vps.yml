@@ -40,7 +40,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           source: 'dist,docker-compose.yml,Caddyfile'
           target: ${{ secrets.VPS_PATH }}
-          rm: true
+          overwrite: true
 
       - name: Restart stack on VPS
         uses: appleboy/ssh-action@v1.2.0
@@ -54,4 +54,4 @@ jobs:
             cd "${{ secrets.VPS_PATH }}"
             printf 'DOMAIN=%s\n' '${{ secrets.DOMAIN }}' > .env
             docker compose pull
-            docker compose up -d --remove-orphans
+            docker compose up -d --remove-orphans --force-recreate

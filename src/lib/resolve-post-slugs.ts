@@ -17,3 +17,7 @@ export function resolvePostDateSegment(post: PostEntry): string {
 export function resolvePostPath(post: PostEntry): string {
   return `/posts/${resolvePostDateSegment(post)}/${resolvePostSlug(post)}/`;
 }
+
+export function resolvePostTransitionName(post: PostEntry): string {
+  return `post-${resolvePostDateSegment(post)}-${resolvePostSlug(post)}`;
+}

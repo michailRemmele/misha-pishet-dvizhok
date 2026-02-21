@@ -9,6 +9,32 @@
   --title-chip-bg: #9fc0ff;
 }
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 260ms;
+  animation-timing-function: ease;
+}
+
+::view-transition-old(.post-card__cover),
+::view-transition-new(.post-card__cover) {
+  clip-path: inset(0 round 18px 18px 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 1ms;
+  }
+}
+
 [data-theme='dark'] {
   --bg: #1a2130;
   --surface: #222c3f;
@@ -163,6 +189,7 @@ video {
 }
 
 .post-card__cover {
+  view-transition-class: post-card__cover;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;

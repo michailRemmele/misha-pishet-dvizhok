@@ -2,7 +2,10 @@
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { resolvePostPath } from '../lib/resolve-post-slugs';
+import {
+  resolvePostPath,
+  resolvePostTransitionName
+} from '../lib/resolve-post-slugs';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getCollection('posts');
@@ -74,6 +77,7 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
     {
       page.data.map((post) => {
         const postPath = resolvePostPath(post);
+        const transitionBase = resolvePostTransitionName(post);
         return (
           <article class="post-card">
             {post.data.cover && (
@@ -87,10 +91,13 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
               </a>
             )}
             <div class="post-card__body">
-              <time datetime={post.data.date.toISOString()}>
+              <time
+                datetime={post.data.date.toISOString()}
+                transition:name={`${transitionBase}-date`}
+              >
                 {formatDate(post.data.date)}
               </time>
-              <h2>
+              <h2 transition:name={`${transitionBase}-title`}>
                 <a href={postPath}>{post.data.title}</a>
               </h2>
               <p>{post.data.excerpt}</p>
