@@ -79,7 +79,21 @@ const twitterCard = imageUrl ? 'summary_large_image' : 'summary';
       href={new URL('rss.xml', siteUrl)}
     />
     <title>{title}</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta
+      name="theme-color"
+      content="#f7f8fb"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#1a2130"
+      media="(prefers-color-scheme: dark)"
+    />
   </head>
   <body>
     <div class="site-shell">
