@@ -98,7 +98,7 @@ export const GET: APIRoute = async (context) => {
   const feedPosts = posts.slice(0, MAX_ITEMS);
   const siteUrl = context.site ?? new URL('http://localhost:4321');
   const lastBuildDate = new Date().toUTCString();
-  const channelImageUrl = new URL('social-preview.png', siteUrl).toString();
+  const channelImageUrl = new URL('favicon-96x96.png', siteUrl).toString();
 
   return rss({
     title: 'Миша пишет движок',
@@ -125,6 +125,6 @@ export const GET: APIRoute = async (context) => {
             : undefined
       };
     }),
-    customData: `<language>ru</language><lastBuildDate>${lastBuildDate}</lastBuildDate><ttl>60</ttl><image><url>${channelImageUrl}</url><title>Миша пишет движок</title><link>${siteUrl.toString()}</link></image>`
+    customData: `<language>ru</language><lastBuildDate>${lastBuildDate}</lastBuildDate><ttl>60</ttl><image><url>${channelImageUrl}</url><title>Миша пишет движок</title><link>${siteUrl.toString()}</link><width>96</width><height>96</height></image>`
   });
 };
