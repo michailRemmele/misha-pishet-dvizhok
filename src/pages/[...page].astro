@@ -90,13 +90,10 @@ const paginationItems = getPaginationItems(page.currentPage, page.lastPage);
               <time datetime={post.data.date.toISOString()}>
                 {formatDate(post.data.date)}
               </time>
-              <h2>
+              <h2 class="post-card__title">
                 <a href={postPath}>{post.data.title}</a>
               </h2>
               <p>{post.data.excerpt}</p>
-              <a class="post-card__read-more" href={postPath}>
-                Читать статью
-              </a>
             </div>
           </article>
         );
