@@ -2,7 +2,7 @@
   --bg: #f7f8fb;
   --surface: #ffffff;
   --surface-subtle: #edf1f9;
-  --code-bg: #f0f3f8;
+  --code-bg: rgba(141, 179, 255, 0.055);
   --text: #131722;
   --muted: #5c6475;
   --line: #dbe0ea;
@@ -36,7 +36,7 @@
   --bg: #1a2130;
   --surface: #222c3f;
   --surface-subtle: #2a354b;
-  --code-bg: #1f2a3c;
+  --code-bg: rgba(4, 14, 30, 0.3);
   --text: #e8edf8;
   --muted: #9ba7c0;
   --line: #3a4861;
@@ -50,7 +50,7 @@
     --bg: #1a2130;
     --surface: #222c3f;
     --surface-subtle: #2a354b;
-    --code-bg: #1f2a3c;
+    --code-bg: rgba(4, 14, 30, 0.3);
     --text: #e8edf8;
     --muted: #9ba7c0;
     --line: #3a4861;
@@ -412,6 +412,32 @@ video {
   border: 1px solid var(--line);
   padding: 16px;
   background: var(--code-bg);
+}
+
+.markdown .astro-code,
+.markdown .astro-code span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+[data-theme='dark'] .markdown .astro-code,
+[data-theme='dark'] .markdown .astro-code span {
+  color: var(--shiki-dark);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='system'] .markdown .astro-code,
+  [data-theme='system'] .markdown .astro-code span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
+  }
 }
 
 .not-found {

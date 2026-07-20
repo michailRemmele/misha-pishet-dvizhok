@@ -15,6 +15,13 @@ export default defineConfig({
   site,
   integrations: [sitemap()],
   markdown: {
-    rehypePlugins: [rehypeExternalLinks]
+    rehypePlugins: [rehypeExternalLinks],
+    shikiConfig: {
+      themes: {
+        light: 'github-light',
+        dark: 'night-owl'
+      },
+      defaultColor: false
+    }
   }
 });
