@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 concurrency:
   group: deploy-main
@@ -31,18 +32,29 @@ jobs:
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
 
-      - name: Upload release to VPS
+      - name: Upload the release
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
-          source: 'dist,docker-compose.yml,Caddyfile'
-          target: ${{ secrets.VPS_PATH }}
-          overwrite: true
+          source: 'dist/*'
+          strip_components: 1
+          target: /srv/sites/blog/releases/${{ github.sha }}
 
-      - name: Restart stack on VPS
+      - name: Upload the virtual host
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          source: 'ops/blog.caddy'
+          strip_components: 1
+          target: /srv/sites/blog/vhost
+
+      - name: Activate the release
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -51,7 +63,32 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -euo pipefail
-            cd "${{ secrets.VPS_PATH }}"
-            printf 'DOMAIN=%s\n' '${{ secrets.DOMAIN }}' > .env
-            docker compose pull
-            docker compose up -d --remove-orphans --force-recreate
+            site=/srv/sites/blog
+            release="$site/releases/${{ github.sha }}"
+
+            # Refuse to publish a truncated upload.
+            test -f "$release/index.html"
+
+            # Caddy runs as its own user, so the upload must be world-readable
+            # regardless of the deploy user's umask.
+            chmod -R a+rX "$release"
+
+            # ln -sfn onto an existing symlink is not atomic; swapping via mv is.
+            ln -sfn "$release" "$site/current.tmp"
+            mv -T "$site/current.tmp" "$site/current"
+
+            # Reload only when the virtual host itself changed. Swinging the
+            # symlink needs no reload, because file_server resolves the path on
+            # every request.
+            if ! cmp -s "$site/vhost/blog.caddy" /etc/caddy/conf.d/blog.caddy; then
+              cp "$site/vhost/blog.caddy" /etc/caddy/conf.d/blog.caddy
+              sudo systemctl reload caddy
+            fi
+
+            # Keep the five most recent releases, never removing the live one.
+            live=$(readlink -f "$site/current")
+            ls -1dt "$site"/releases/*/ | tail -n +6 | while read -r dir; do
+              if [ "$(readlink -f "$dir")" != "$live" ]; then
+                rm -rf "$dir"
+              fi
+            done

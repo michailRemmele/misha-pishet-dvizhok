@@ -357,6 +357,17 @@ video {
   text-align: center;
 }
 
+.markdown a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.markdown a:hover,
+.markdown a:focus-visible {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
 .markdown code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9em;
@@ -471,10 +482,13 @@ video {
   display: inline-block;
   color: var(--accent);
   font-weight: 700;
+  text-decoration: none;
 }
 
-.not-found__link:hover {
+.not-found__link:hover,
+.not-found__link:focus-visible {
   color: var(--accent-hover);
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {

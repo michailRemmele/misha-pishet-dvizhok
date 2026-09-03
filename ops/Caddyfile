@@ -1,0 +1,9 @@
+# Base configuration for the host's single Caddy.
+#
+# It deliberately contains no site of its own. Each site ships its own virtual
+# host into /etc/caddy/conf.d from its own repository, so adding or changing a
+# site never means editing another project's files.
+#
+# Install to /etc/caddy/Caddyfile.
+
+import /etc/caddy/conf.d/*.caddy

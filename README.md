@@ -43,20 +43,28 @@ coverAlt: "Описание обложки"
 
 Полная статья: `/posts/<date>/<slug>/`.
 
-## Деплой на VPS через Docker + Caddy
+## Деплой на VPS (нативный Caddy)
 
 Проект статический (`output: 'static'`), поэтому деплой устроен так:
 
 1. GitHub Actions на каждом push в `main` собирает `dist/`.
-2. CI копирует `dist`, `docker-compose.yml`, `Caddyfile` на VPS.
-3. На VPS поднимается/обновляется контейнер Caddy, который раздает сайт и TLS.
+2. CI заливает сборку в `/srv/sites/blog/releases/<sha>/` и виртуальный хост
+   `ops/blog.caddy` на VPS.
+3. Симлинк `/srv/sites/blog/current` переключается на новый релиз — публикация
+   атомарна. Caddy перезагружается только если изменился сам виртуальный хост.
+4. Хранятся пять последних релизов, живой не удаляется.
+
+На хосте один нативный Caddy (systemd) на все сайты: базовый `Caddyfile`
+импортирует `/etc/caddy/conf.d/*.caddy`, каждый сайт привозит свой виртуальный
+хост из своего репозитория.
 
 Файлы деплоя в репозитории:
 
-- `docker-compose.yml`
-- `Caddyfile`
 - `.github/workflows/deploy-vps.yml`
-- `ops/vps-bootstrap.sh`
+- `ops/vps-bootstrap.sh` - подготовка хоста
+- `ops/Caddyfile` - базовый конфиг хоста
+- `ops/blog.caddy` - виртуальный хост блога
+- `ops/MIGRATION.md` - как хост переехал с Docker и как проверить
 
 ### 1) Первый запуск VPS (Ubuntu)
 
@@ -68,9 +76,21 @@ sudo bash ops/vps-bootstrap.sh
 
 Скрипт:
 
-- устанавливает Docker Engine + Compose plugin;
-- открывает порты `22`, `80`, `443` через `ufw`;
-- создает директорию `/opt/www/misha-blog`.
+- ставит Caddy из его apt-репозитория (и сразу останавливает — запуск это
+  отдельный шаг, см. `ops/MIGRATION.md`);
+- создает `/srv/sites/<site>/releases` и `/etc/caddy/conf.d`;
+- разрешает деплой-пользователю ровно одну привилегированную команду:
+  `systemctl reload caddy`;
+- открывает порты `22`, `80`, `443` через `ufw`.
+
+Дальше базовый конфиг и виртуальный хост ставятся руками:
+
+```bash
+sudo cp ops/Caddyfile /etc/caddy/Caddyfile
+cp ops/blog.caddy /etc/caddy/conf.d/blog.caddy
+sudo caddy validate --config /etc/caddy/Caddyfile
+sudo systemctl enable --now caddy
+```
 
 ### 2) GitHub Secrets
 
@@ -80,7 +100,6 @@ sudo bash ops/vps-bootstrap.sh
 - `VPS_PORT` - SSH порт (обычно `22`)
 - `VPS_USER` - SSH пользователь
 - `VPS_SSH_KEY` - приватный ключ для SSH (лучше отдельный deploy key)
-- `VPS_PATH` - путь на сервере (например `/opt/www/misha-blog`)
 - `DOMAIN` - основной домен сайта (например `example.com`, без `https://`)
 
 ### 3) Домен
@@ -90,4 +109,6 @@ sudo bash ops/vps-bootstrap.sh
 - `A` для `@`
 - `A` для `www`
 
-После следующего push в `main` workflow `Deploy to VPS` выполнит деплой автоматически.
+После следующего push в `main` workflow `Deploy to VPS` выполнит деплой
+автоматически. Его же можно запустить руками через `workflow_dispatch` во
+вкладке Actions.

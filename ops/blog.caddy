@@ -1,0 +1,19 @@
+# Virtual host for the blog. Install to /etc/caddy/conf.d/blog.caddy.
+#
+# `current` is a symlink swung by the deploy, and file_server resolves it per
+# request, so publishing needs no reload.
+
+www.misharemmele.ru {
+  redir https://misharemmele.ru{uri} permanent
+}
+
+misharemmele.ru {
+  root * /srv/sites/blog/current
+  encode zstd gzip
+  file_server
+
+  handle_errors {
+    rewrite * /404.html
+    file_server
+  }
+}
